@@ -4,3 +4,12 @@
 ## 注意
 請盡量使用上課教的 GUI 工具或 git 指令繳交作業  
 若使用 GitHub 網頁進行 commit 會依次數扣分
+
+
+./images/readme-1.jpg
+首頁
+
+./images/readme-2.jpg
+有計時功能
+可以重複開始
+

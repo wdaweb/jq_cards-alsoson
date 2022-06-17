@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200;300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <title>疊字大挑戰-card作業</title>
+  <style>
+    /* 注音符號專用 */
+    @font-face {
+      font-family: MyCustomFont;
+      /* 同樣的 font-family */
+      unicode-range: U+3100-312F;
+      /* Bopomofo */
+      src: local(LiHei Pro),
+        /* OS X */
+        local("微軟正黑體");
+      /* Windows Vista+ */
+    }
+
+    body,
+    html {
+      height: 100%;
+      /* width: 100vw; */
+      /* height: 100vh; */
+      padding: 0;
+      margin: 0;
+      box-sizing: 0;
+      display: flex;
+      justify-content: center;
+      height: 100vh;
+      font-family: MyCustomFont, sans-serif;
+      font-family: 'Noto Sans TC', sans-serif;
+      font-family: 'Noto Serif TC', serif;
+      background-color: #01111d;
+      overflow-y:hidden;
+    }
+
+    #particles-js {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+
+    #left {
+      width: calc(50% - 453px);
+      background-color: aquamarine;
+    }
+
+    /* right */
+    #right{
+      text-align:center;
+    }
+    #start {
+      width: 100px;
+      height: 50px;
+      border-radius: 10;
+      border-radius: 30px;
+      background-color: #15334a;
+      color: lightblue;
+      font-size: 25px;
+      font-weight: 900;
+    }
+
+    #text-time {
+      color: aliceblue;
+      font-size:1.5rem;
+      text-align:center;
+      width: 100px;
+      position:absolute;
+      margin-top:15px;
+    }
+
+    #gameleft {
+      /* 全部 912px */
+      width: 916px;
+    }
+
+    .card {
+      width: 100px;
+      height: 100px;
+      position: relative;
+      float: left;
+      margin: 7px;
+      /* 設定子元素在3D空間內 */
+      transform-style: preserve-3d;
+      transition: transform 0.5s;
+    }
+
+    .card-front {
+      width: 100%;
+      height: 100%;
+      background: #10293d;
+      position: absolute;
+      transform: rotateY(180deg);
+      border-radius: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.2rem;
+      /* 翻過後隱藏另一面 */
+      backface-visibility: hidden;
+      /* 注音問題 */
+      color: white;
+      box-sizing: border-box;
+      border: 5px solid #011627
+    }
+
+    .card-back {
+      width: 100%;
+      height: 100%;
+      background: url(./images/card-back.jpg) no-repeat center/cover;
+      position: absolute;
+      backface-visibility: hidden;
+      border-radius: 30px;
+    }
+
+    .card-open {
+      transform: rotateY(180deg);
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div id="particles-js"></div>
+
+  <div class="container">
+    <div class="box">
+    </div>
+    <div id="game">
+      <div id="gameleft">
+        <img id="title" src="./images/大字體.png" alt="">
+      </div>
+    </div>
+    <div class="box">
+      <div id="right">
+        <input type="button" value="開始" id="start">
+        <div id="text-time"></div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- <div class="card">
+    <div class="card-front"></div>
+    <div class="card-back"></div>
+  </div> -->
+  <script src="./js/particles.min.js"></script>
+  <script src="./js/app.js"></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.16/sweetalert2.all.min.js'
+    integrity='sha512-p7aAJcDFjcxYs7dERuxYe4/nf3cND+6RYVbenDmxREAPPCjOL4PdwK2VIUXQ0DDiu/96pkb+ZneIwHKZs7/3ww=='
+    crossorigin='anonymous'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'
+    integrity='sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=='
+    crossorigin='anonymous'></script>
+
+  <script>
+
+    function again() {
+      // 產生卡片
+      for (let i = 0; i < 32; i++) {
+        $('#gameleft').append(`
+        <div class="card">
+          <div class="card-front"></div>
+          <div class="card-back"></div>
+        </div>
+      `)
+      }
+
+
+      // 決定數字
+      const word = ['㸚', '𠈌', '𠫬', '叕', '𣬅', '㠭', '㗊', '𡚌', '𡮐', '茻', '燚', '𤛭', '䲜', '朤', '𣡽', '㵘', 'ㄌㄧˇ', 'ㄩˊ', 'ㄧㄡ', 'ㄓㄨㄛˊ', 'ㄅㄧˇ', 'ㄓㄢˇ', 'ㄐㄧˊ', 'ㄐㄧㄝˊ', 'ㄒㄧㄠˇ', 'ㄇㄤˇ', 'ㄧ', 'ㄑㄩㄣˊ', 'ㄧㄝˋ', 'ㄌㄤˇ', 'ㄕㄚ', 'ㄇㄢˋ']
+
+      for (let i = 0; i < 32; i++) {
+        $('.card').eq(i).find('.card-front').append(word[i])
+        $('.card').eq(i).attr('data-card', i)
+
+        //打散
+        const target = Math.round(Math.random() * 15)
+        $('.card').eq(target).insertAfter( $('.card').eq(i) ) 
+      }
+    }
+
+    // again()
+    // const names = []
+    $('#start').click(function () {
+      let countTime = 0
+      // $('#start').remove()
+      $('#start').attr('disabled', true)
+      $('#title').remove()
+      again()
+
+      timer = setInterval(function () {
+        //計時開始 
+        countTime++
+        $('#text-time').text(countTime + '秒')
+      }, 1000)
+
+      $('#gameleft').on('click', '.card', function () {
+        // 最多一次翻1張，且這張牌沒被翻開
+        if ($('.card-open').length < 2 && !$(this).hasClass('card-open')) {
+          $(this).addClass('card-open')
+        }
+
+        const num = parseInt('data-card')
+        // 開兩張了
+        if ($('.card-open').length === 2) {
+          // 答對了，用.card-open淡出3D會被壓平，會造成背面消失
+          console.log(parseInt($('.card-open').eq(0).attr('data-card')) + 16)
+          if (parseInt($('.card-open').eq(0).attr('data-card')) + 16 == $('.card-open').eq(1).attr('data-card')) {
+            $('.card-open').addClass('card-ok')
+            $('.card-open .card-front').fadeTo(1000, 0)
+          } else if ($('.card-open').eq(0).attr('data-card') == parseInt($('.card-open').eq(1).attr('data-card'))
+            + 16) {
+            $('.card-open').addClass('card-ok')
+            $('.card-open .card-front').fadeTo(1000, 0)
+          }
+
+          // 不論是否依樣都將卡片翻回
+          setTimeout(function () {
+            // 如果.card-open裡的透明度不是1,把.open-card 透明度設為0
+            $('.card-open').each(function () {
+              if ($(this).find('.card-front').css('opacity') !== '1') {
+                $(this).css('opacity', 0)
+              }
+            })
+
+            $('.card-open').removeClass('card-open')
+            if ($('.card-ok').length === 32) {
+              clearInterval(timer)
+            
+              const { value: text } =
+                swal.fire({
+                  icon: 'success',
+                  title: '您是國字大師吧!',
+                  text: '再按開始玩一次吧!',
+                  // showCancelButton: true,
+                })
+
+            $('.card').remove()
+            $('#start').attr('disabled', false) 
+            }
+          }, 500)
+        }
+
+      })
+      
+    })
+
+  </script>
+</body>
+
+</html>
+
