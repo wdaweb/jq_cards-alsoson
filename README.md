@@ -6,10 +6,10 @@
 若使用 GitHub 網頁進行 commit 會依次數扣分
 
 
-./images/readme-1.jpg
+![image](https://user-images.githubusercontent.com/101792855/174219273-96ec605d-3b22-4073-9018-13e5e3e057e3.png)
 首頁
+標題會消失
 
-./images/readme-2.jpg
+![image](https://user-images.githubusercontent.com/101792855/174219368-1677227b-d53f-41b6-b590-74c0c05221c5.png)
 有計時功能
 可以重複開始
-
